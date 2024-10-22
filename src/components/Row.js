@@ -1,11 +1,11 @@
- import React from 'react'
- 
- function Row() {
-   return (
-     <div>
-       
-     </div>
-   )
- }
- 
- export default Row; 
+import React from "react";
+
+function Row({ title }) {
+  return (
+    <div>
+      <h2>{title}</h2>
+    </div> 
+  );
+}
+
+export default Row;
