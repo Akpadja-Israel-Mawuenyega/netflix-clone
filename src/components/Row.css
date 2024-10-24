@@ -1,3 +1,8 @@
+.row {
+  margin-left: 20px;
+  color: white;
+}
+
 .row_posters {
   display: flex;
   overflow-y: hidden;
@@ -26,5 +31,5 @@
 }
 
 .row_posterLarge:hover {
-    transform: scale(1.09);
+  transform: scale(1.09);
 }
