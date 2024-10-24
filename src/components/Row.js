@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import YouTube from "react-youtube";
 import "./Row.css";
 import axios from "../axios";
 
@@ -18,6 +19,14 @@ function Row({ title, fetchUrl, isLargeRow }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchUrl]);
 
+  const opts = {
+    height: "390",
+    width: "100%",
+    playerVars: {
+      autoplay: 1,
+    }
+  }
+
   return (
     <div className="row">
       <h2>{title}</h2>
@@ -34,6 +43,7 @@ function Row({ title, fetchUrl, isLargeRow }) {
           />
         ))}
       </div>
+      <YouTube videoId={trailerUrl} opts={opts}/>
     </div>
   );
 }
