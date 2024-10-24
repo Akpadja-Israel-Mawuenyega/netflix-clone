@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import YouTube from "react-youtube";
 import "./Row.css";
 import axios from "../axios";
+import movieTrailer from "movie-trailer";
 
 const base_url = "https://image.tmdb.org/t/p/original/";
 
 function Row({ title, fetchUrl, isLargeRow }) {
   const [movies, setMovies] = useState([]);
+  const [trailerUrl, setTrailerURL] = useState("");
 
   useEffect(() => {
     async function fetchData() {
@@ -24,6 +26,19 @@ function Row({ title, fetchUrl, isLargeRow }) {
     width: "100%",
     playerVars: {
       autoplay: 1,
+    },
+  };
+
+  function handleClick(movie) {
+    if (trailerUrl) {
+      setTrailerURL("");
+    } else {
+      movieTrailer(movie.name || "")
+        .then((url) => {
+          const urlParams = new URLSearchParams(new URL(url).search);
+          setTrailerURL(urlParams.get("v"));
+        })
+        .catch((error) => console.log(error)); 
     }
   }
 
@@ -32,9 +47,10 @@ function Row({ title, fetchUrl, isLargeRow }) {
       <h2>{title}</h2>
 
       <div className="row_posters">
-        {movies?.map((movie) => (
+        {movies.map((movie) => (
           <img
             key={movie.id}
+            onClick={() => handleClick(movie)}
             className={`row_poster ${isLargeRow && "row_posterLarge"}`}
             src={`${base_url}${
               isLargeRow ? movie.poster_path : movie.backdrop_path
@@ -43,7 +59,7 @@ function Row({ title, fetchUrl, isLargeRow }) {
           />
         ))}
       </div>
-      <YouTube videoId={trailerUrl} opts={opts}/>
+      {trailerUrl && <YouTube videoId={trailerUrl} opts={opts} />}
     </div>
   );
 }
